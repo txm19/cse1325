@@ -124,7 +124,20 @@ public class LibraryManager {
                     manager.listPublications();
                     break;
                 case 2:
-                    // Add logic for adding a publication or video
+                    	System.out.println("1) Add Publication");
+    			System.out.println("2) Add Video");
+    			int addSelection = Integer.parseInt(manager.getInput("Selection: "));
+    			switch (addSelection) {
+        			case 1:
+            			manager.addPublication();
+            			break;
+        			case 2:
+            			manager.addVideo();
+            			break;
+        			default:
+            			System.out.println("Invalid selection. Please try again.");
+            			break;
+    }
                     break;
                 case 3:
                     manager.checkOutPublication();
