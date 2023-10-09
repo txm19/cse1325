@@ -48,16 +48,14 @@ import java.util.ArrayList;
         }
     }
     /**
-    * Checks in a publication that was previously checked out.
+    * Checks in a publication from this library instance.
      *
-     * @param publicationIndex  the index of the publication to check in
-     * @since                            1.0
+     * @param publicationIndex  the index as shown by toString()
+     * @since                            1.1
      */
     public void checkIn(int publicationIndex) {
         try {
             publications.get(publicationIndex).checkIn();
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println("\nInvalid publication index: " + publicationIndex + "\n");
         } catch (Exception e) {
             System.err.println("\nUnable to check in publication #" + publicationIndex 
                 + ": " + e.getMessage() + "\n");

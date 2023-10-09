@@ -1,154 +1,79 @@
+package mdi;
+
 import library.Library;
 import library.Publication;
 import library.Video;
-import java.util.Scanner;
+
+import java.io.Console;
 
 public class LibraryManager {
-    private Library library;
-
     public LibraryManager(Library library) {
         this.library = library;
     }
-
     public void listPublications() {
-        System.out.println("------------------");
-        System.out.println("Library Catalogue");
-        System.out.println("------------------");
+        System.out.println("=================\nLibrary Catalogue\n=================\n");
         System.out.println(library);
     }
-
     public void addPublication() {
-        Scanner scanner = new Scanner(System.in);
-    
-    System.out.println("Adding a Publication");
-    
-    System.out.print("Title: ");
-    String title = scanner.nextLine();
-    
-    System.out.print("Author: ");
-    String author = scanner.nextLine();
-    
-    System.out.print("Year of Publication: ");
-    int year = Integer.parseInt(scanner.nextLine());
-    
-    Publication publication = new Publication(title, author, year);
-    library.addPublication(publication);
-    
-    System.out.println("Publication added successfully.");
+        String title = console.readLine("Title: ");   if(title.isEmpty()) return;
+        String author = console.readLine("Author: "); if(author.isEmpty()) return;
+        int copyright = Integer.parseInt(console.readLine("Copyright: "));
+        String runtime = console.readLine("Runtime (Enter if not video): ");
+        Publication p = null;
+        if(runtime.isEmpty()) {
+            p = new Publication(title, author, copyright);
+        } else {
+            p = new Video(title, author, copyright, Integer.parseInt(runtime));
+        }
+        library.addPublication(p);
     }
-
-    public void addVideo() {
-        Scanner scanner = new Scanner(System.in);
-    
-    System.out.println("Adding a Video");
-    
-    System.out.print("Title: ");
-    String title = scanner.nextLine();
-    
-    System.out.print("Director: ");
-    String director = scanner.nextLine();
-    
-    System.out.print("Year of Publication: ");
-    int year = Integer.parseInt(scanner.nextLine());
-    
-    System.out.print("Runtime (minutes): ");
-    int runtime = Integer.parseInt(scanner.nextLine());
-    
-    Video video = new Video(title, director, year, runtime);
-    library.addPublication(video);
-    
-    System.out.println("Video added successfully.");
+    public void checkOutPublication() {
+        System.out.println(library);
+        int index = Integer.parseInt(console.readLine("Selection: "));
+        String patron = console.readLine("Patron: ");
+        library.checkOut(index, patron);
     }
-
-    public void checkOutPublication() 
-    {
-    Scanner scanner = new Scanner(System.in);
-    
-    System.out.print("Selection: ");
-    int selection = Integer.parseInt(scanner.nextLine());
-    
-    System.out.print("Patron: ");
-    String patron = scanner.nextLine();
-    
-    library.checkOut(selection, patron);
-   }
-
-
-    public void checkInPublication() 
-    {
-    Scanner scanner = new Scanner(System.in);
-    
-    System.out.print("Selection: ");
-    int selection = Integer.parseInt(scanner.nextLine());
-    
-    library.checkIn(selection);
-    }
-
-
-    private String getInput(String prompt) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(prompt);
-        return scanner.nextLine();
+    public void checkInPublication() {
+        System.out.println(library);
+        int index = Integer.parseInt(console.readLine("Selection: "));
+        library.checkIn(index);
     }
 
     public static void main(String[] args) {
-        Library library = new Library("The Library at Alexandria (Texas)");
+        LibraryManager lm = new LibraryManager(new Library(name));
+        while(true) {
+            try {
+                System.out.println(menu);
+                int selection = Integer.parseInt(console.readLine("Selection: "));
+                System.out.println();
+                switch(selection) {
+                    case -1 -> lm.testData();
+                    case  0 -> System.exit(0);
+                    case  1 -> lm.listPublications();
+                    case  2 -> lm.addPublication();
+                    case  3 -> lm.checkOutPublication();
+                    case  4 -> lm.checkInPublication();
+                    default -> throw new RuntimeException("Invalid: " + selection);
+                }
+            } catch (Exception e) {
+                System.err.println("#### Error - " + e.getMessage());
+            }
+        }
+    }
+
+    private static Console console = System.console();
+    private static final String name = "The Library at Alexandria (Texas)";
+    private static final String menu = "\n\n=========\nMain Menu\n=========\n\n" + name + "\n\n"
+        + "0) Exit\n1) List\n2) Add\n3) Check out\n4) Check in\n\n";
+
+    private Library library;
+    
+    public void testData() {
         library.addPublication(new Publication("The Cat in the Hat", "Dr. Suess", 1957));
         library.addPublication(new Publication("The Firm", "John Grisham", 1992));
         library.addPublication(new Publication("Foundation", "Isaac Asimov", 1951));
         library.addPublication(new Video("Citizen Kane", "Orson Welles", 1941, 119));
         library.addPublication(new Video("Star Wars", "George Lucas", 1977, 121));
         library.addPublication(new Video("七人の侍 (Seven Samurai)", "Akira Kurosawa", 1954, 207));
-
-        LibraryManager manager = new LibraryManager(library);
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("------------------");
-            System.out.println("Main Menu");
-            System.out.println("------------------");
-            System.out.println(library);
-
-            System.out.println("0) Exit");
-            System.out.println("1) List");
-            System.out.println("2) Add");
-            System.out.println("3) Check out");
-            System.out.println("4) Check in");
-
-            int selection = Integer.parseInt(manager.getInput("Selection: "));
-
-            switch (selection) {
-                case 0:
-                    System.exit(0);
-                case 1:
-                    manager.listPublications();
-                    break;
-                case 2:
-                    	System.out.println("1) Add Publication");
-    			System.out.println("2) Add Video");
-    			int addSelection = Integer.parseInt(manager.getInput("Selection: "));
-    			switch (addSelection) {
-        			case 1:
-            			manager.addPublication();
-            			break;
-        			case 2:
-            			manager.addVideo();
-            			break;
-        			default:
-            			System.out.println("Invalid selection. Please try again.");
-            			break;
-    }
-                    break;
-                case 3:
-                    manager.checkOutPublication();
-                    break;
-                case 4:
-                    manager.checkInPublication();
-                    break;
-                default:
-                    System.out.println("Invalid selection. Please try again.");
-            }
-        }
     }
 }
-
