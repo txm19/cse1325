@@ -43,6 +43,8 @@ sys	0m0.229s
 
 YOUR Timing:
 
+36.40s user    0.39s system 103% cpu 35.490 total
+
 
 
 
@@ -50,14 +52,14 @@ YOUR Timing:
 
 
 QUESTION 3: Does adding more threads continue to speed up the program? Do more threads ever slow down the program even slightly?  Why or why not?
-
+Adding more threads can initially speed up the program if there's enough parallel work to do. However, adding too many threads can lead to diminishing returns or even slow down the program due to overhead, contention for resources, and the nature of the problem being solved. The optimal number of threads depends on hardware and the specific characteristics of the program.
 
 
 
 
 
 QUESTION 4: Does adding more threads increase the "system load" (sys), or is it constant regardless of the number of threads?  Why?
-
+The "system load" (sys) can increase with more threads because additional threads create overhead in terms of context switching, synchronization, and resource management. As more threads are added, the system has to spend more time managing these threads, which can lead to an increase in the "sys" component of the system load. However, the degree of increase and whether it's noticeable depends on various factors, including hardware, the efficiency of thread management, and the specific workload.
 
 
 
