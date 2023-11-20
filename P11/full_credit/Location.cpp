@@ -1,3 +1,4 @@
+// Location.cpp
 #include "Location.h"
 #include <algorithm> // for std::transform
 
@@ -42,3 +43,4 @@ std::ostream& operator<<(std::ostream& os, const Location& location) {
     os << location._filename << " line " << location._line;
     return os;
 }
+

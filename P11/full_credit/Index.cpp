@@ -1,11 +1,16 @@
 // Index.cpp
 #include "Index.h"
+#include <algorithm> // for std::transform
 
 void Index::add_word(const Word& word, const std::string& filename, int line) {
     // Convert word to lowercase and remove punctuation as described
     // (Implement the necessary code to clean up the word)
 
-    Locations& locations = _index[word];
+    // Convert word to lowercase
+    std::string lowercaseWord = word;
+    std::transform(lowercaseWord.begin(), lowercaseWord.end(), lowercaseWord.begin(), ::tolower);
+
+    Locations& locations = _index[lowercaseWord];
     locations.emplace(filename, line);
 }
 
